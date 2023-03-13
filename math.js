@@ -1,8 +1,9 @@
 // dataSample as we go
+// 120 is 1hr scope
 let dataSample = [];
 exports.cardPull = function(color){
     dataSample.push(color);
-    if (dataSample.length > 200){
+    if (dataSample.length > 120){
         dataSample.shift();
     }
     return dataSample;

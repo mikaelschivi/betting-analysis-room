@@ -81,10 +81,10 @@ socket.onmessage = function(event) {
 
 // websocket on error
 socket.onerror = function(error) {
-    console.log("Error:", error);
+    console.log("!! error:", error);
 };
 
 // websocket on close
 socket.onclose = function(event) {
-    console.log("[-] Connection closed");
+    console.log("- connection close");
 };
