@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const mathLib = require('./math')
+const mathLib = require('./math');
 
 // blaze websocket endpoint
 const socket = new WebSocket("wss://api-v2.blaze.com/replication/?EIO=3&transport=websocket");
