@@ -28,37 +28,21 @@ exports.generateRandomNumber = function(){
     if(1 <= randomNumber <= 7){
         return 1;
     }
-    else if( 7 < randomNumber <= 14){
+    else if(7 < randomNumber <= 14){
         return 2;
     }
-}
-
-// calculate win ratio
-// it would be better to put in a list with 1 for win and 0 for loss
-// calculate all the 1s / size
-// then shift when size > datasample lenght
-// should fix this asap
-let win = 0;
-let games = 0;
-exports.guessedRight = function(guess, result){
-    if (guess===result){
-        win+=1;
-    }
-    games+=1;
-
-    return (100*(win/games)).toFixed(2);
 }
 
 // this is just kinda calculate some kinda of frequency for 0 rolls.
 let weight = 0; 
 exports.tableWeight = function(color){
-    if (color===0){
+    if (color === 0){
         weight = 0;
     }
-    if (color===1){
+    if (color === 1){
         weight+=1;
     }
-    if (color===2){
+    if (color === 2){
         weight-=1;
     }
 

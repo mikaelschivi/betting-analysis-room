@@ -25,7 +25,7 @@ let checkStatus = 0;
 let guess = -1;
 let hasGuessed = 'NO';
 socket.onmessage = function(event) {
-    // 
+    // grab time for pulls
     let time = new Date();
     let currentHour = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
 
@@ -62,9 +62,7 @@ socket.onmessage = function(event) {
 
                 console.log(`color: \x1b[32m${parsedData[1].payload.color}\x1b[0m roll: \x1b[32m${parsedData[1].payload.roll}\x1b[0m id: \x1b[32m${parsedData[1].payload.id}\x1b[0m - ${currentHour}`);
                 console.log('dataSample size:', dataSampleVar.length);
-                console.log('variance:', mathLib.calculateVariance(dataSampleVar));
                 console.log('table weight:', mathLib.tableWeight(parsedData[1].payload.color));
-                console.log(`win ratio: ${mathLib.guessedRight(guess, parsedData[1].payload.color)}%`);
                 hasGuessed = 'NO';
             }
         // treat websocket handshake messages || catch errors
