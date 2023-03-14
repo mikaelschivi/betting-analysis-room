@@ -1,13 +1,13 @@
 // dataSample as we go
 // 120 is 1hr scope
 let dataSample = [];
-exports.cardPull = function(color){
+exports.cardPull = function(color) {
     dataSample.push(color);
-    if (dataSample.length > 120){
+    if (dataSample.length > 120) {
         dataSample.shift();
     }
     return dataSample;
-}
+};
 
 // calculte variance - this should be around 0.37-0.38 on bigger samples
 exports.calculateVariance = function(dataSample) {
@@ -19,23 +19,23 @@ exports.calculateVariance = function(dataSample) {
     const variance = sumOfSquaredDiffs / dataSample.length;
   
     return variance;
-}
+};
 
-exports.generateRandomNumber = function(){
+exports.generateRandomNumber = function() {
     // turns out that just doing it randomly gets you a 5-10% better result
     // who would know
     randomNumber = Math.floor(Math.random() * 16)
-    if(1 <= randomNumber <= 7){
+    if (1 <= randomNumber <= 7) {
         return 1;
     }
-    else if(7 < randomNumber <= 14){
+    else if (7 < randomNumber <= 14) {
         return 2;
     }
-}
+};
 
 // this is just kinda calculate some kinda of frequency for 0 rolls.
 let weight = 0; 
-exports.tableWeight = function(color){
+exports.tableWeight = function(color) {
     if (color === 0){
         weight = 0;
     }
@@ -46,5 +46,5 @@ exports.tableWeight = function(color){
         weight-=1;
     }
 
-    return weight
-}
+    return weight;
+};

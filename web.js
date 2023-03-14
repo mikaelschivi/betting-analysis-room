@@ -56,7 +56,7 @@ socket.onmessage = function(event) {
             }
 
             // this will be true once per roll and its easier to use data
-            if ( (rollId != parsedData[1].payload.id) && (parsedData[1].payload.status === 'complete') ){
+            if ( (rollId != parsedData[1].payload.id) && (parsedData[1].payload.status === 'complete') ) {
                 rollId = parsedData[1].payload.id;
                 let dataSampleVar = mathLib.cardPull(parsedData[1].payload.color);
 
@@ -67,10 +67,10 @@ socket.onmessage = function(event) {
             }
         // treat websocket handshake messages || catch errors
         } catch (error) {
-            if ( event.data.startsWith('4')|| event.data.startsWith('0') ){
+            if ( event.data.startsWith('4')|| event.data.startsWith('0') ) {
                 console.log(event.data);
             }
-            else{
+            else {
                 console.log(error);
             }
         }
