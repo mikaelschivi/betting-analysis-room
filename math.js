@@ -12,10 +12,10 @@ exports.cardPull = function(color) {
 // turns out that just doing it randomly gets you a 5-10% better result who would know
 exports.generateRandomNumber = function() {
     number = Math.floor(Math.random() * 15)
-    if (1 <= number <= 7) {
+    if (number >= 1 && number <= 7) {
         return 1;
     }
-    else if (8 <= number <= 15) {
+    else if (number >= 8 && number <= 15) {
         return 2;
     }
     else {
