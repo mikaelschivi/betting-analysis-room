@@ -9,42 +9,43 @@ exports.cardPull = function(color) {
     return dataSample;
 };
 
-// calculte variance - this should be around 0.37-0.38 on bigger samples
-exports.calculateVariance = function(dataSample) {
-    // calculate mean
-    // calculate the sum of the squared differences between each data point and the mean
-    // calculate the variance
-    const mean = dataSample.reduce((a, b) => a + b, 0) / dataSample.length;
-    const sumOfSquaredDiffs = dataSample.reduce((a, b) => a + Math.pow((b - mean), 2), 0);
-    const variance = sumOfSquaredDiffs / dataSample.length;
-  
-    return variance;
-};
-
+// turns out that just doing it randomly gets you a 5-10% better result who would know
 exports.generateRandomNumber = function() {
-    // turns out that just doing it randomly gets you a 5-10% better result
-    // who would know
-    randomNumber = Math.floor(Math.random() * 16)
-    if (1 <= randomNumber <= 7) {
+    number = Math.floor(Math.random() * 15)
+    if (1 <= number <= 7) {
         return 1;
     }
-    else if (7 < randomNumber <= 14) {
+    else if (8 <= number <= 15) {
         return 2;
+    }
+    else {
+        // do nothing
     }
 };
 
-// this is just kinda calculate some kinda of frequency for 0 rolls.
+// kinda calculate some kinda of frequency for 0 rolls.
 let weight = 0; 
 exports.tableWeight = function(color) {
-    if (color === 0){
+    if (color === 0) {
         weight = 0;
     }
-    if (color === 1){
+    if (color === 1) {
         weight+=1;
     }
-    if (color === 2){
+    if (color === 2) {
         weight-=1;
     }
 
     return weight;
+};
+
+let win = 0;
+let games = 0;
+exports.winRatio = function(guess, roll) {
+    if (guess === roll) {
+        win+=1;
+    }
+    games+=1;
+
+    return win/games;
 };
