@@ -26,7 +26,7 @@ let hasGuessed = 'NO';
 socket.onmessage = function(event) {
     // grab time for pulls
     let time = new Date();
-    // toLocaleTimeString will print exact formated date
+    // toLocaleTimeString will print exact formated date i.e. 01:43:07 AM
     let currentHour = time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
 
     // try-catch to parse data
