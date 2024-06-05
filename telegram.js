@@ -1,37 +1,38 @@
-const fs = require('fs');
 const TelegramBot = require('node-telegram-bot-api');
+require('dotenv').config()
 
-// grab token + chatid in file - could get chatid by api/getUpdates but easier this way
-const TOKEN = fs.readFileSync('./helper/token', 'utf8').trim();
-const CHATID = fs.readFileSync('./helper/chat_id', 'utf8').trim();
-
-// bot handler
+// get chatid by api at:
+// https://api.telegram.org/bot<token>/getUpdates
+const TOKEN = process.env.TOKEN
+const CHATID = process.env.CHATID
 const bot = new TelegramBot(TOKEN, { polling: false });
 
-// send message to telegram channel
+const isProduction = process.env.PRODUCTION ? true : false
+
+function botMessage(text) {
+    if (!isProduction){
+        console.log('[dev enviroment no messages send]')
+        return
+    }
+    bot.sendMessage(CHATID, text);
+}
+
 exports.sendSignal = function( guess ) {
     let message = '';
     if (guess === 1) {
         message = `📢 JOGUE NO 🔴`;
-        bot.sendMessage(CHATID, message);
     }
     else if (guess === 2) {
         message = `📢 JOGUE NO ⚫️`;
-        bot.sendMessage(CHATID, message);
     }
-    return message;
+    botMessage(message);
 };
 
-// check signal i will eventually use this for martingale
-exports.checkSignal = function( guess, roll ) {
-    let message = '';
-    if (guess === roll) {
-        message = `✅ Win`;
-        bot.sendMessage(CHATID, message);
-    }
-    else {
-        message = `❌ Loss`;
-        bot.sendMessage(CHATID, message);
-    }
+exports.checkSignal = function(guess, roll) {
+    const message = (guess === roll) ? `✅ Win` : `❌ Loss`;
+    botMessage(message);
+    
     return message
 };
+
+botMessage('a')

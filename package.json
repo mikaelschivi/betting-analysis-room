@@ -1,5 +1,12 @@
 {
+  "name": "roulette",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "init": "node app.js"
+  },
   "dependencies": {
+    "dot  env": "^16.4.5",
     "node-telegram-bot-api": "^0.61.0",
     "ws": "^8.12.1"
   }
