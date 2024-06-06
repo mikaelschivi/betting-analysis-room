@@ -38,7 +38,7 @@ class Martingale{
     }
     PrintPastGaleResults(){
         let count = 0
-        for( let i = 0; i < this.pastGaleResults; i++) {
+        for( let i = 0; i < this.pastGaleResults.length; i++) {
             if (this.pastGaleResults[i] === 1){
                 count+=1
             }
