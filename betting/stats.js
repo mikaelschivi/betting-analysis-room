@@ -1,11 +1,15 @@
-class Stats { 
+const Martingale = require('./martingale')
+
+class Stats extends Martingale{ 
     constructor(){
+        super()
         this.pullHistory = []
         this.pullHistoryLength = 0
         
         this.guess = 0
         this.win = 0
         this.weight = 0
+        this.playedGames = 0
 
         this.Colors = {
             0: 'White',
@@ -16,8 +20,6 @@ class Stats {
         // each pull takes 30s so for 2hr 
         // = 60 * 60 * 2 / 30 = 240 pulls 
         this.timeScope = 240
-
-        this.isMartingale = 0
     };
     
     PopulatePullHistory(rollColor, rollNumber, rollId, rollTime) {
@@ -27,32 +29,35 @@ class Stats {
             color: this.Colors[rollColor],
             time: rollTime
         }
-        this.pullHistory.push(data)
-        this.pullHistoryLength += 1
+        this.pullHistory.push(data);
+        this.pullHistoryLength += 1;
     };
 
     GenerateRandomGuess() {
-        if (this.isMartingale) {
-            return null
+        if (this.isGale) {
+            return this.guess;
         }
         const number = Math.floor(Math.random() * 30)
-        let generatedGuess = 0
+        let generatedGuess = 0;
+        
         if (number >= 1 && number <= 15) {
-            generatedGuess = 1
+            generatedGuess = 1;
         }
         else if (number >= 16 && number <= 30) {
-            generatedGuess = 2
+            generatedGuess = 2;
         }
         else {
             // TODO: redo generation method to get 0s more unlikely
-            //       the chance for this recursion hit 0 again is 1/29 * 1/29 = 0.11%
-            generatedGuess = this.GenerateRandomGuess()
+            //       the chance for this recursion hit 0 again is 1/30 * 1/30 = 0.11%
+            generatedGuess = this.GenerateRandomGuess();
         }
-        this.guess = generatedGuess
-        return generatedGuess
+        this.guess = generatedGuess;
+        this.playedGames += 1;
+
+        return generatedGuess;
     };
 
-    PastPullsWeight(color) {
+    UpdateTableWeight(color) {
         if (color === 0) {
             this.weight = 0
         }
@@ -66,32 +71,38 @@ class Stats {
         return this.weight
     };
 
-    CheckResult(result){
-        if(this.isMartingale){
-            console.log('GALEGALEGALEGALE')
-            if(result == this.guess){
-                this.win += 1
-                this.isMartingale = 0
-            }
-        }
-        if(result === this.guess){
-            this.win += 1
-        }
-    }
-
     CalculateWinRatio() {
-        return this.win / this.pullHistoryLength;
+        return ( this.win / this.playedGames );
     };
 
-    ShowSessionStats(rollColor, rollNumber, rollId, guess, currentHour) {
+    ResultHandler(rollColor, rollNumber, rollId, guess, currentHour) {
         console.log(`color: \x1b[32m${this.Colors[rollColor]}\x1b[0m roll: \x1b[32m${rollNumber}\x1b[0m id: \x1b[32m${rollId}\x1b[0m - ${currentHour}`);
-        if (guess === rollColor){
+        
+        this.UpdateTableWeight(rollColor);
+
+        if (guess === rollColor) {
+            if(this.isGale){
+                this.UpdateGale(1);
+            }
             console.log("result: WIN")
+            this.win += 1
+            this.PrintStats()
+
         } else {
-            console.log("result: LOSS")
+            if(!this.isGale){
+                console.log("result: LOSS")
+                this.InitializeGaleStrategy()
+                console.log("Initializing strategy.")
+            }
+            console.log(`GALE: ${this.currentGaleSession+1}`)
+            this.UpdateGale(0)
         }
-        console.log('table weight:', this.PastPullsWeight(rollColor));
-        console.log('win ratio:', this.CalculateWinRatio());
+
+    }
+    
+    PrintStats(){
+        console.log('table weight:', this.weight);
+        console.log('overall win ratio:', this.CalculateWinRatio());
     }
 }
 

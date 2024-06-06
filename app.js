@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const Statistics = require('./stats');
+const Statistics = require('./betting/stats');
 const telegramBot = require('./telegram');
 
 const socket = new WebSocket(process.env.API_ENDPOINT);
@@ -56,22 +56,22 @@ socket.onmessage = function(event) {
 
         if (status != payload.status){
             status = payload.status
-            console.log(status)
+            console.log(`\n${status}\n`)
         }
 
         if (rollId != payload.id && payload.status === 'waiting') {
             rollId = payload.id;
             console.log('--- new roll ---');
-            console.log('sample size:', Stats.pullHistoryLength);
+            console.log('Roll number:', Stats.pullHistoryLength+1);
             guess = Stats.GenerateRandomGuess();
-            // console.log(telegramBot.sendSignal(guess));
             console.log(`guess: ${Stats.Colors[guess]}`);
+            console.log(telegramBot.sendSignal(guess));
         }
             
         if (rollId == payload.id && (payload.status === 'complete' || payload.status === 'rolling')) {
             Stats.PopulatePullHistory(payload.color, payload.roll, payload.id, currentHour);
             console.log('--- result ---');
-            Stats.ShowSessionStats(payload.color, payload.roll, payload.id, guess, currentHour)
+            Stats.ResultHandler(payload.color, payload.roll, payload.id, guess, currentHour)
             rollId = 0;
         }
 
