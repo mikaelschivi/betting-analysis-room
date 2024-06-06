@@ -6,7 +6,7 @@
     "init": "node app.js"
   },
   "dependencies": {
-    "dot  env": "^16.4.5",
+    "dotenv": "^16.4.5",
     "node-telegram-bot-api": "^0.61.0",
     "ws": "^8.12.1"
   }
