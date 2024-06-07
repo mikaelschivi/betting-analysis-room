@@ -45,7 +45,7 @@ class Martingale{
         }
         console.log(`Martingale info:`)
         console.log(this.pastGaleResults)
-        console.log(`strategy win ratio: ${count / this.pastGaleResults.length * 100}%`)
+        console.log(`strategy win ratio: ${count / this.pastGaleResults.length}`)
     }
 }
 
