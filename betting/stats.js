@@ -75,22 +75,18 @@ class Stats extends Martingale{
         return ( this.win / this.playedGames );
     };
 
-    ResultHandler(rollColor, rollNumber, rollId, guess, currentHour) {
-        console.log(`color: \x1b[32m${this.Colors[rollColor]}\x1b[0m roll: \x1b[32m${rollNumber}\x1b[0m id: \x1b[32m${rollId}\x1b[0m - ${currentHour}`);
-        
+    ResultHandler(result, rollColor) {        
         this.UpdateTableWeight(rollColor);
 
-        if (guess === rollColor) {
+        if (result) {
             if(this.isGale){
                 this.UpdateGale(1);
             }
-            console.log("result: WIN")
             this.win += 1
             this.PrintStats()
 
         } else {
             if(!this.isGale){
-                console.log("result: LOSS")
                 this.InitializeGaleStrategy()
                 console.log("Initializing strategy.")
             }

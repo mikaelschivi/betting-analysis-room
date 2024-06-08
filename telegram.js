@@ -10,6 +10,7 @@ const bot = new TelegramBot(TOKEN, { polling: false });
 const isProduction = process.env.PRODUCTION ? true : false
 
 function botMessage(text) {
+    console.log(`bot message: ${text}`)
     if (!isProduction){
         console.log('[dev enviroment no messages send]')
         return;
@@ -17,18 +18,16 @@ function botMessage(text) {
     bot.sendMessage(CHATID, text);
 };
 
-exports.sendSignal = function( guess ) {
+exports.sendCustomMessage = function(text) {
+    botMessage(text);
+};
+
+exports.sendSignal = function(guess) {
     let message = (guess === 1) ? `📢 JOGUE NO 🔴` : `📢 JOGUE NO ⚫️`;
     botMessage(message);
-    
-    return message;
 };
 
-exports.checkSignal = function(guess, roll) {
-    let message = (guess === roll) ? `✅ Win` : `❌ Loss`;
+exports.checkSignal = function(result) {
+    let message = (result) ? `✅ Win` : `❌ Loss`;
     botMessage(message);
-    
-    return message
 };
-
-botMessage('a')
